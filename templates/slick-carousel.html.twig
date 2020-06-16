@@ -1,0 +1,15 @@
+<div class="slick-carousel">
+  <div id="{{ slick_id }}" class="slick-main">
+    {% for item in items %}
+      <div>{{ item }}</div>
+    {% endfor %}
+  </div>
+
+  {% if nav %}
+    <div id="{{ nav.slick_id }}" class="slick-nav-slider mt-2">
+      {% for item in nav.items %}
+        <div>{{ item }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

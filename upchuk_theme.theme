@@ -1,0 +1,237 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the SASS Starterkit subtheme.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_form_system_theme_settings_alter() for settings form.
+ *
+ * Replace Barrio setting options with subtheme ones.
+ */
+function upchuk_theme_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  $form['components']['navbar']['bootstrap_barrio_navbar_top_background']['#options'] = array(
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
+  );
+  $form['components']['navbar']['bootstrap_barrio_navbar_background']['#options'] = array(
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function upchuk_theme_theme() {
+  $return = array();
+
+  $return['grid'] = [
+    'variables' => [
+      'columns' => [],
+      'classes' => [],
+      'container' => NULL,
+      'alignment' => ''
+    ]
+  ];
+
+  $return['slick_carousel'] = [
+    'variables' => [
+      'items' => [],
+      'settings' => [],
+      'slick_id' => NULL,
+      'nav' => [],
+    ]
+  ];
+
+  $return['address_wrapper'] = [
+    'variables' => [
+      'children' => NULL,
+      'attributes' => [],
+      'title' => [],
+    ],
+    'path' => drupal_get_path('theme', 'upchuk_theme') . '/templates/form',
+  ];
+
+  return $return;
+}
+
+/**
+ * Implements template_preprocess_slick_carousel().
+ *
+ * Variables for the Slick carousel.
+ */
+function upchuk_theme_preprocess_slick_carousel(&$vars) {
+  $settings = $vars['settings'];
+  $vars['#attached'] = [
+    'library' => ['upchuk_theme/slick'],
+  ];
+
+  $vars['#attached']['drupalSettings']['slick'][$vars['slick_id']] = [
+    'slick_id' => $vars['slick_id'],
+    'settings' => (object) $settings,
+  ];
+
+  if ($vars['nav']) {
+    $settings = isset($vars['nav']['settings']) ? $vars['nav']['settings'] : [];
+    $vars['#attached']['drupalSettings']['slick'][$vars['slick_id']]['nav'] = [
+      'slick_id' => $vars['nav']['slick_id'],
+      'settings' => (object) $settings,
+    ];
+  }
+}
+
+/**
+ * Implements template_preprocess_fieldset().
+ */
+function upchuk_theme_preprocess_fieldset(&$vars) {
+  $attributes = new Attribute();
+  $attributes->addClass(['col-auto', 'form-group']);
+
+  if (isset($vars['element']['#bootstrap_col']) && $vars['element']['#bootstrap_col'] === FALSE) {
+    $vars['attributes'] = [];
+    return;
+  }
+
+  if (!isset($vars['element']['inline_entity_form'])) {
+    $vars['attributes'] = $attributes;
+  }
+  else {
+    $vars['legend']['attributes'] = $attributes;
+  }
+}
+
+/**
+ * Implements template_preprocess_form_element().
+ */
+function upchuk_theme_preprocess_form_element(&$vars) {
+  $attributes = new Attribute();
+  $attributes->addClass(['col-auto', 'form-group']);
+
+  if (isset($vars['element']['#bootstrap_col']) && $vars['element']['#bootstrap_col'] === FALSE) {
+    $vars['attributes'] = [];
+    return;
+  }
+
+  if (!in_array($vars['type'], ['checkbox', 'radio', 'password', 'date'])) {
+    $vars['attributes'] = $attributes;
+  }
+
+  if (isset($vars['name']) && in_array($vars['name'], ['current_pass', 'pass'])) {
+    $vars['attributes'] = $attributes;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function upchuk_theme_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (\Drupal::theme()->getActiveTheme()->getName() !== 'upchuk_theme') {
+    return;
+  }
+
+  upchuk_theme_text_format_apply_after_build($form);
+
+  if (in_array($form_id, ['user_login_form', 'user_pass'])) {
+    $form['#attributes']['class'][] = 'row';
+    $form['actions']['#attributes']['class'][] = 'form-group';
+    $form['actions']['#attributes']['class'][] = 'col-12';
+
+    if (isset($form['mail'])) {
+      $form['mail'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['col-12', 'form-group']],
+        0 => $form['mail']
+      ];
+    }
+  }
+}
+
+/**
+ * Applies the after build function to text_format elements inside a form.
+ *
+ * @param $form
+ */
+function upchuk_theme_text_format_apply_after_build(&$form) {
+  $children = Element::children($form);
+  foreach ($children as $child) {
+    if (isset($form[$child]['#type']) && $form[$child]['#type'] === 'text_format') {
+      $form[$child]['#after_build'][] = 'upchuk_theme_text_format_after_build';
+      continue;
+    }
+
+    if (Element::children($form[$child])) {
+      upchuk_theme_text_format_apply_after_build($form[$child]);
+    }
+  }
+}
+
+/**
+ * After build callback for the text_format form elements.
+ */
+function upchuk_theme_text_format_after_build($element, FormStateInterface $formState) {
+  if (isset($element['format'])) {
+    $element['format']['guidelines']['#access'] = FALSE;
+    $element['format']['help']['#access'] = FALSE;
+    $element['format']['#attributes']['class'] = [];
+  }
+  return $element;
+}
+
+/**
+ * Implements template_preprocess_image_style().
+ */
+function upchuk_theme_preprocess_image_style(&$variables) {
+  if (isset($variables['image']['#width'])) {
+    unset($variables['image']['#width']);
+  }
+  if (isset($variables['image']['#height'])) {
+    unset($variables['image']['#height']);
+  }
+}
+
+/**
+ * Implements template_preprocess_image_formatter().
+ */
+function upchuk_theme_preprocess_image_formatter(&$variables) {
+  // We don't want forced width and height on images.
+  if (isset($variables['image']['#width'])) {
+    unset($variables['image']['#width']);
+  }
+  if (isset($variables['image']['#height'])) {
+    unset($variables['image']['#height']);
+  }
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function upchuk_theme_element_info_alter(array &$info) {
+  if (isset($info['commerce_price'])) {
+    $info['commerce_price']['#process'][] = 'upchuk_theme_commerce_price_process';
+  }
+}
+
+/**
+ * Commerce Price element process callback.
+ */
+function upchuk_theme_commerce_price_process($element) {
+  if (isset($element['#bootstrap_col'])) {
+    $element['number']['#bootstrap_col'] = $element['#bootstrap_col'];
+  }
+
+  return $element;
+}

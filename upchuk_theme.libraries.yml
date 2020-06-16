@@ -1,0 +1,21 @@
+global-js:
+  version: VERSION
+  js:
+    js/popper.min.js: {}
+    js/bootstrap.min.js: {}
+    js/global.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+slick:
+  version: 1.8.1
+  css:
+    component:
+      lib/slick/slick/slick.css: {}
+      lib/slick/slick/slick-theme.css: {}
+  js:
+    lib/slick/slick/slick.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

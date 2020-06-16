@@ -1,0 +1,11 @@
+{% if container %}
+  <div class="container">
+{% endif %}
+    <div class="row {{ alignment }}">
+      {% for col in columns %}
+        <div class="{{ classes|join(' ') }}">{{ col }}</div>
+      {% endfor %}
+    </div>
+{% if container %}
+  </div>
+{% endif %}
