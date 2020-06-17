@@ -139,7 +139,7 @@ function upchuk_theme_preprocess_form_element(&$vars) {
  * Implements hook_form_alter().
  */
 function upchuk_theme_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if (\Drupal::theme()->getActiveTheme()->getName() !== 'upchuk_theme') {
+  if (!isset(\Drupal::theme()->getActiveTheme()->getBaseThemeExtensions()['upchuk_theme'])) {
     return;
   }
 
