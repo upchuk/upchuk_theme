@@ -70,6 +70,14 @@ function upchuk_theme_theme() {
 }
 
 /**
+ * Implements hook_theme_registry_alter().
+ */
+function upchuk_theme_theme_registry_alter(&$theme_registry) {
+  $theme_registry['image_style']['variables']['zoom'] = FALSE;
+  $theme_registry['image']['variables']['zoom'] = FALSE;
+}
+
+/**
  * Implements template_preprocess_slick_carousel().
  *
  * Variables for the Slick carousel.
@@ -201,6 +209,10 @@ function upchuk_theme_preprocess_image_style(&$variables) {
   if (isset($variables['image']['#height'])) {
     unset($variables['image']['#height']);
   }
+
+  if ($variables['zoom'] === TRUE) {
+    $variables['image']['#zoom'] = TRUE;
+  }
 }
 
 /**
@@ -234,4 +246,28 @@ function upchuk_theme_commerce_price_process($element) {
   }
 
   return $element;
+}
+
+/**
+ * Implements theme_suggestions_image_alter().
+ */
+function upchuk_theme_theme_suggestions_image_alter(array &$suggestions, array $variables) {
+  if (!$variables['zoom']) {
+    return;
+  }
+
+  $suggestions[] = 'image__zoom';
+}
+
+/**
+ * Implements template_preprocess_image().
+ */
+function upchuk_theme_preprocess_image(&$variables) {
+  if (!$variables['zoom']) {
+    return;
+  }
+
+  $variables['#attached'] = [
+    'library' => ['upchuk_theme/zoom'],
+  ];
 }

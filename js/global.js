@@ -70,4 +70,16 @@
     }
   };
 
+  /**
+   * Image zoom
+   */
+  Drupal.behaviors.zizoom = {
+    attach: function (context, settings) {
+
+      jQuery('.zoom-photo').each(function () {
+        jQuery(this).once().zoom();
+      });
+    }
+  };
+
 })(jQuery, Drupal);

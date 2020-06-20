@@ -19,3 +19,11 @@ slick:
   dependencies:
     - core/jquery
     - core/jquery.once
+
+zoom:
+  version: VERSION
+  js:
+    lib/zoom/jquery.zoom.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
