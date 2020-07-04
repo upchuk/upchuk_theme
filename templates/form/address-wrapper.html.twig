@@ -1,4 +1,8 @@
-<div {{ attributes }}>
-  <h3 class="col-auto">{{ title }}</h3>
-  {{ children }}
-</div>
+<fieldset class="form-group border pl-3 pr-3">
+  <legend class="fieldset-legend">
+    <span>{{ title }}</span>
+  </legend>
+  <div class="fieldset-wrapper">
+    {{ children }}
+  </div>
+</fieldset>
