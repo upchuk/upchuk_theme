@@ -121,6 +121,15 @@ function upchuk_theme_preprocess_form_element(&$vars) {
   $attributes = new Attribute();
   $attributes->addClass(['form-group']);
   $vars['attributes'] = $attributes;
+
+  /** @var Attribute $input_attributes */
+  $input_attributes = isset($vars['input_attributes']) && $vars['input_attributes'] instanceof Attribute ? $vars['input_attributes'] : NULL;
+  if (!$input_attributes) {
+    return;
+  }
+  if ($input_attributes->hasClass('error')) {
+    $input_attributes->addClass('is-invalid');
+  }
 }
 
 /**
