@@ -106,7 +106,7 @@ function upchuk_theme_preprocess_slick_carousel(&$vars) {
  * Implements template_preprocess_fieldset().
  */
 function upchuk_theme_preprocess_fieldset(&$vars) {
-  $attributes = new Attribute();
+  $attributes = $vars['attributes'] instanceof Attribute ? $vars['attributes'] : new Attribute($vars['attributes']);
   $attributes->addClass(['form-group']);
   if ($vars['element']['#type'] === 'webform_address') {
     $attributes->addClass(['border', 'pl-3', 'pr-3']);
@@ -118,7 +118,7 @@ function upchuk_theme_preprocess_fieldset(&$vars) {
  * Implements template_preprocess_form_element().
  */
 function upchuk_theme_preprocess_form_element(&$vars) {
-  $attributes = new Attribute();
+  $attributes = $vars['attributes'] instanceof Attribute ? $vars['attributes'] : new Attribute($vars['attributes']);
   $attributes->addClass(['form-group']);
   $vars['attributes'] = $attributes;
 
