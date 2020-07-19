@@ -123,9 +123,11 @@
       </div>
     {% endif %}
     {% if description_display in ['after', 'invisible'] and description.content %}
-      <small{{ description.attributes.addClass(description_classes) }}>
-        {{ description.content }}
-      </small>
+      <div>
+        <small{{ description.attributes.addClass(description_classes) }}>
+          {{ description.content }}
+        </small>
+      </div>
     {% endif %}
   </div>
 {% else %}
