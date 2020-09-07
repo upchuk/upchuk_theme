@@ -66,6 +66,17 @@ function upchuk_theme_theme() {
     'path' => drupal_get_path('theme', 'upchuk_theme') . '/templates/form',
   ];
 
+  $return['bootstrap_tabs'] = [
+    'variables' => [
+      'tabs' => [],
+      'items' => [],
+      'tabs_id' => NULL,
+      'active_index' => 0,
+      'attributes' => [],
+    ],
+  ];
+
+
   return $return;
 }
 
@@ -264,5 +275,26 @@ function upchuk_theme_form_views_exposed_form_alter(array &$form, FormStateInter
   if (isset($form['actions'])) {
     $form['actions']['#attributes']['class'][] = 'col-auto';
     $form['actions']['#attributes']['class'][] = 'form-group';
+  }
+}
+
+/**
+ * Implements template_process_field().
+ */
+function upchuk_theme_preprocess_field(&$vars) {
+  if ($vars['field_name'] === 'field_media_oembed_video') {
+    /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+    $entity = $vars['element']['#object'];
+    foreach ($vars['items'] as $delta => &$item) {
+      $width = $item['content']['#attributes']['width'];
+      $url = $entity->get('field_media_oembed_video')->get($delta)->value;
+      $resource_url = \Drupal::service('media.oembed.url_resolver')->getResourceUrl($url, $width, 0);
+      $resource = \Drupal::service('media.oembed.resource_fetcher')->fetchResource($resource_url);
+      if ($resource instanceof \Drupal\media\OEmbed\Resource) {
+        $ratio = $resource->getWidth() / $resource->getHeight();
+        $new_height = round($width / $ratio);
+        $item['content']['#attributes']['height'] = $new_height;
+      }
+    }
   }
 }

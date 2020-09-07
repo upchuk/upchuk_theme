@@ -82,4 +82,26 @@
     }
   };
 
+  /**
+   * Video aspect ratio
+   */
+  Drupal.behaviors.videoSizeRatio = {
+    attach: function attach(context, settings) {
+      adjustVideoSize();
+
+      $(window).on('resize', function() {
+        adjustVideoSize();
+      });
+
+      function adjustVideoSize() {
+        let $frame = $('iframe.media-oembed-content');
+        let $width = $frame.attr('width');
+        let $height = $frame.attr('height');
+        let $ratio = $width / $height;
+        if ($frame.width() !== $width) {
+          $frame.height($frame.width() / $ratio);
+        }
+      }
+    }}
+
 })(jQuery, Drupal);
