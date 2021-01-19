@@ -76,6 +76,15 @@ function upchuk_theme_theme() {
     ],
   ];
 
+  $return['bootstrap_accordion'] = [
+    'variables' => [
+      'accordion_id' => NULL,
+      'items' => [],
+      'active_index' => 0,
+      'attributes' => [],
+    ],
+  ];
+
 
   return $return;
 }
