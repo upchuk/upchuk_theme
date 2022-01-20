@@ -30,8 +30,8 @@ echo "# Check the themes/custom folder for your new sub-theme."
 
 # Replace the gulp file and templates.
 
-cp ../../custom/upchuk_theme/gulpfile.js .
-cp -r ../../custom/upchuk_theme/templates .
+cp ../../contrib/upchuk_theme/gulpfile.js .
+cp -r ../../contrib/upchuk_theme/templates .
 
 # Remove extra files.
 rm "$CUSTOM_BOOTSTRAP_SASS.info.yml-e"
