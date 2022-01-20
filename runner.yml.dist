@@ -1,0 +1,30 @@
+drupal:
+  root: "build"
+  base_url: "http://web:8080/build"
+  database:
+    host: "mariadb"
+    port: "3306"
+    name: "drupal"
+    user: "root"
+    password: "password"
+  site:
+    profile: "standard"
+    name: "Upchuk theme"
+  post_install:
+    - "./vendor/bin/drush theme:enable upchuk_theme -y"
+    - "./vendor/bin/drush config-set system.theme default upchuk_theme -y"
+    - "./vendor/bin/drush cr"
+  settings:
+    settings:
+      file_scan_ignore_directories:
+        - "vendor"
+        - "test-site"
+        - "${drupal.root}"
+      extension_discovery_scan_tests: TRUE
+      file_private_path: "sites/default/files/private"
+
+commands:
+  drupal:site-setup:
+    - { task: "run", command: "drupal:symlink-project" }
+    - { task: "run", command: "drupal:drush-setup" }
+    - { task: "run", command: "drupal:settings-setup" }
