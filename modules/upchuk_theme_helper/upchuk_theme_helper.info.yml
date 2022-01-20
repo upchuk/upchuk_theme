@@ -1,0 +1,4 @@
+name: Upchuk Theme Helper
+type: module
+description: 'Helper module for the Upchuk Theme setup'
+core_version_requirement: ^9

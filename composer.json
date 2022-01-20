@@ -7,7 +7,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "drupal/bootstrap_barrio": "^4.8.0",
+        "drupal/bootstrap_barrio": "^5.5",
+        "drupal/bootstrap_sass": "^5.0",
         "drupal/views_bootstrap": "^4.3"
     },
     "require-dev": {

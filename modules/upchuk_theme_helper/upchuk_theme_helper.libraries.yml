@@ -1,0 +1,27 @@
+upchuk_theme_helper:
+  version: VERSION
+  js:
+    js/global.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+slick:
+  version: 1.8.1
+  css:
+    component:
+      lib/slick/slick/slick.css: {}
+      lib/slick/slick/slick-theme.css: {}
+  js:
+    lib/slick/slick/slick.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+
+zoom:
+  version: VERSION
+  js:
+    lib/zoom/jquery.zoom.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

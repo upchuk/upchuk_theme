@@ -11,8 +11,11 @@ drupal:
     profile: "standard"
     name: "Upchuk theme"
   post_install:
-    - "./vendor/bin/drush theme:enable upchuk_theme -y"
-    - "./vendor/bin/drush config-set system.theme default upchuk_theme -y"
+    - "chmod -R 777 build/themes/custom"
+    - "./vendor/bin/run generate-theme"
+    - "./vendor/bin/drush theme:enable upchuk_theme_dev -y"
+    - "./vendor/bin/drush config-set system.theme default upchuk_theme_dev -y"
+    - "./vendor/bin/drush en upchuk_theme_helper -y"
     - "./vendor/bin/drush cr"
   settings:
     settings:
@@ -24,6 +27,8 @@ drupal:
       file_private_path: "sites/default/files/private"
 
 commands:
+  generate-theme:
+    - "scripts/create_subtheme_dev.sh upchuk_theme_dev Upchuk"
   drupal:site-setup:
     - { task: "run", command: "drupal:symlink-project" }
     - { task: "run", command: "drupal:drush-setup" }
