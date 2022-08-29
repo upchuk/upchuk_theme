@@ -104,18 +104,23 @@ function upchuk_theme_helper_preprocess_slick_carousel(&$vars) {
  * Implements template_preprocess_fieldset().
  */
 function upchuk_theme_helper_preprocess_fieldset(&$vars) {
+  $was_object = $vars['attributes'] instanceof Attribute;
   $attributes = $vars['attributes'] instanceof Attribute ? $vars['attributes'] : new Attribute($vars['attributes']);
   $attributes->addClass(['form-group']);
   if ($vars['element']['#type'] === 'webform_address') {
     $attributes->addClass(['border', 'pl-3', 'pr-3']);
   }
   $vars['attributes'] = $attributes;
+  if (!$was_object) {
+    $vars['attributes'] = $attributes->toArray();
+  }
 }
 
 /**
  * Implements template_preprocess_form_element().
  */
 function upchuk_theme_helper_preprocess_form_element(&$vars) {
+  $was_object = $vars['attributes'] instanceof Attribute;
   $attributes = $vars['attributes'] instanceof Attribute ? $vars['attributes'] : new Attribute($vars['attributes']);
   $attributes->addClass(['form-group']);
   $vars['attributes'] = $attributes;
@@ -127,6 +132,9 @@ function upchuk_theme_helper_preprocess_form_element(&$vars) {
   }
   if ($input_attributes->hasClass('error')) {
     $input_attributes->addClass('is-invalid');
+  }
+  if (!$was_object) {
+    $vars['attributes'] = $attributes->toArray();
   }
 }
 
