@@ -104,4 +104,24 @@
       }
     }}
 
+  /**
+   * Stops modal videos when the modal closes.
+   */
+  Drupal.behaviors.stopVideo = {
+     attach: function (context, settings) {
+       $('.modal-dialog button[data-dismiss="modal"]').on('click', function (e) {
+         let $modal = $(this).parents('.modal-dialog');
+         if ($modal === undefined) {
+           return;
+         }
+         let $iframe = $modal.find('iframe.media-oembed-content');
+         if ($iframe === undefined) {
+           return;
+         }
+         let href = $iframe.attr("src");
+         $iframe.attr("src", href);
+       });
+     }
+   };
+
 })(jQuery, Drupal);
