@@ -13,9 +13,9 @@
     },
     "require-dev": {
         "composer/installers": "^1.5",
-        "drupal/core-dev": "^9.3",
-        "drupal/core-composer-scaffold": "^9.3",
-        "drush/drush": "^10.3",
+        "drupal/core-dev": "^10",
+        "drupal/core-composer-scaffold": "^10",
+        "drush/drush": "^11",
         "openeuropa/task-runner-drupal-project-symlink": "^1.0"
     },
     "conflict": {
@@ -48,6 +48,12 @@
         "patches": {}
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

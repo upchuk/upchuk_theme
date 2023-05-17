@@ -45,14 +45,16 @@
       for (var key in slick) {
         var info = slick[key];
         var id = '#' + info.slick_id;
-        $(id).once('slick-attached-' + slick[key]).slick(info.settings);
+        const $id =  $(once('slick-attached-' + info.slick_id, id));
+        $id.slick(info.settings);
 
         if (info.nav === undefined) {
           continue;
         }
 
         var nav_id = '#' + info.nav.slick_id;
-        $(nav_id).once('slick-attached-nav-' + info.nav.slick_id).slick(info.nav.settings);
+        const $nav_id = $(once('slick-attached-nav-' + info.nav.slick_id, nav_id));
+        $nav_id.slick(info.nav.settings);
       }
     }
   };
@@ -76,8 +78,9 @@
   Drupal.behaviors.zizoom = {
     attach: function (context, settings) {
 
-      jQuery('.zoom-photo').each(function () {
-        jQuery(this).once().zoom();
+      const $images = $(once('zoom', '.zoom-photo'));
+      $images.each(function () {
+        jQuery(this).zoom();
       });
     }
   };
