@@ -2,7 +2,7 @@
   <ul class="nav nav-tabs" id="{{ tabs_id }}" role="tablist">
     {% for tab in tabs %}
       <li class="nav-item">
-        <a class="nav-link {% if loop.index0 == active_index %}active{% endif %}" id="tab-{{ tabs_id }}-{{ loop.index0 }}" data-toggle="tab" href="#tab-content-{{ tabs_id }}-{{ loop.index0 }}" role="tab" aria-controls="tab-content-{{ tabs_id }}-{{ loop.index0 }}" aria-selected="{% if loop.index0 == 0 %}true{% else %}false{% endif %}">{{ tab }}</a>
+        <a class="nav-link {% if loop.index0 == active_index %}active{% endif %}" id="tab-{{ tabs_id }}-{{ loop.index0 }}" data-bs-toggle="tab" href="#tab-content-{{ tabs_id }}-{{ loop.index0 }}" role="tab" aria-controls="tab-content-{{ tabs_id }}-{{ loop.index0 }}" aria-selected="{% if loop.index0 == 0 %}true{% else %}false{% endif %}">{{ tab }}</a>
       </li>
     {% endfor %}
   </ul>
