@@ -41,7 +41,7 @@ function upchuk_theme_helper_theme() {
       'attributes' => [],
       'title' => [],
     ],
-    'path' => \Drupal::service('extension.path.resolver')->getPathname('module', 'upchuk_theme_helper') . '/templates/form',
+    'path' => \Drupal::service('extension.path.resolver')->getPath('module', 'upchuk_theme_helper') . '/templates/form',
   ];
 
   $return['bootstrap_tabs'] = [
