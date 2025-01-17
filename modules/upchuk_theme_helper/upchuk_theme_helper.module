@@ -63,6 +63,11 @@ function upchuk_theme_helper_theme() {
     ],
   ];
 
+  $return['image__zoom'] = [
+    'variables' => [
+      'uri' => NULL, 'width' => NULL, 'height' => NULL, 'alt' => '', 'title' => NULL, 'attributes' => [], 'sizes' => NULL, 'srcset' => [], 'style_name' => NULL
+    ],
+  ];
 
   return $return;
 }
@@ -264,6 +269,13 @@ function upchuk_theme_helper_preprocess_image(&$variables) {
   $variables['#attached'] = [
     'library' => ['upchuk_theme_helper/zoom'],
   ];
+}
+
+/**
+ * Implements template_preprocess_image().
+ */
+function upchuk_theme_helper_preprocess_image__zoom(&$variables) {
+  template_preprocess_image($variables);
 }
 
 /**
