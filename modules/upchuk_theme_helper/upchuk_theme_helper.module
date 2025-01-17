@@ -63,6 +63,16 @@ function upchuk_theme_helper_theme() {
     ],
   ];
 
+  $return['bootstrap_modal'] = [
+    'variables' => [
+      'modal_id' => [],
+      'modal_label_id' => [],
+      'label' => [],
+      'body' => [],
+      'size' => NULL,
+    ],
+  ];
+
   $return['image__zoom'] = [
     'variables' => [
       'uri' => NULL, 'width' => NULL, 'height' => NULL, 'alt' => '', 'title' => NULL, 'attributes' => [], 'sizes' => NULL, 'srcset' => [], 'style_name' => NULL
