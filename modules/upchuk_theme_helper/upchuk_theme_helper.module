@@ -87,7 +87,9 @@ function upchuk_theme_helper_theme() {
  */
 function upchuk_theme_helper_theme_registry_alter(&$theme_registry) {
   $theme_registry['image_style']['variables']['zoom'] = FALSE;
+  $theme_registry['image_style']['variables']['zoom_magnify'] = 1;
   $theme_registry['image']['variables']['zoom'] = FALSE;
+  $theme_registry['image']['variables']['zoom_magnify'] = 1;
 }
 
 /**
@@ -222,6 +224,10 @@ function upchuk_theme_helper_preprocess_image_style(&$variables) {
   if ($variables['zoom'] === TRUE) {
     $variables['image']['#zoom'] = TRUE;
   }
+
+  if ($variables['zoom_magnify'] > 1) {
+    $variables['image']['#zoom_magnify'] = $variables['zoom_magnify'];
+  }
 }
 
 /**
@@ -286,6 +292,8 @@ function upchuk_theme_helper_preprocess_image(&$variables) {
  */
 function upchuk_theme_helper_preprocess_image__zoom(&$variables) {
   template_preprocess_image($variables);
+  upchuk_theme_helper_preprocess_image($variables);
+  $variables['attributes']['data-zoom-magnify'] = $variables['zoom_magnify'];
 }
 
 /**
